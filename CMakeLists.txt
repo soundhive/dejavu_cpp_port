@@ -1,8 +1,30 @@
-cmake_minimum_required(VERSION 3.13)
-PROJECT (dejavu_cpp_port)
+#./CMakeLists.txt
+cmake_minimum_required(VERSION 3.2 FATAL_ERROR)
+cmake_policy(VERSION 3.2)
+
+project(dejavu_cpp_port
+    VERSION "1.0.0"
+    DESCRIPTION "C++ port of dejavu lib"
+)
 find_package(OpenCV REQUIRED)
 
-set(EXECUTABLE_OUTPUT_PATH ${CMAKE_BINARY_DIR}/bin)
-add_executable(fingerprint fingerprint.cpp fingerprint.h)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+link_libraries(stdc++fs)
 
-target_link_libraries(fingerprint ${OpenCV_LIBS})
+file(GLOB_RECURSE SOURCES "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
+
+add_library(${PROJECT_NAME} ${SOURCES})
+
+set(INCLUDES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/include"
+    "${CMAKE_CURRENT_SOURCE_DIR}/src"
+)
+
+target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBS})
+
+target_include_directories(${PROJECT_NAME} PUBLIC ${INCLUDES})
+
+
+
+
